@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
-	"sort"
 )
 
 type lexer struct {
@@ -46,29 +45,28 @@ func lexWord(l *lexer) lexFn {
 	return lexStart
 }
 
-// broken ):
-// func brokenSort(things []string) {
-// 	var recurse func([]string, int, int)
-// 	recurse = func(a []string, low, high int) {
-// 		if low >= high {
-// 			return
-// 		}
-// 		mid := (low + high) / 2
-// 		pivot := things[mid]
-// 		a[mid], a[high] = a[high], a[mid]
-// 		store := low
-// 		for i := low; i < high-1; i++ {
-// 			if a[i] < pivot {
-// 				a[i], a[store] = a[store], a[i]
-// 				store++
-// 			}
-// 		}
-// 		a[store], a[high] = a[high], a[store]
-// 		recurse(a, low, store-1)
-// 		recurse(a, store+1, high)
-// 	}
-// 	recurse(things, 0, len(things)-1)
-// }
+func qsort(things []string) {
+	var recurse func([]string, int, int)
+	recurse = func(a []string, low, high int) {
+		if low >= high {
+			return
+		}
+		mid := (low + high) / 2
+		pivot := things[mid]
+		a[mid], a[high] = a[high], a[mid]
+		store := low
+		for i := low; i < high; i++ {
+			if a[i] < pivot {
+				a[i], a[store] = a[store], a[i]
+				store++
+			}
+		}
+		a[store], a[high] = a[high], a[store]
+		recurse(a, low, store-1)
+		recurse(a, store+1, high)
+	}
+	recurse(things, 0, len(things)-1)
+}
 
 func val(str string) int {
 	var sum int
@@ -89,7 +87,7 @@ func Solve() string {
 	for n := range c {
 		names = append(names, n)
 	}
-	sort.Strings(names)
+	qsort(names)
 	var sum int
 	for i, name := range names {
 		sum += (i + 1) * val(name)
