@@ -1,6 +1,10 @@
 package math
 
-import "github.com/cznic/mathutil"
+import (
+	"math/big"
+
+	"github.com/cznic/mathutil"
+)
 
 type Fraction struct {
 	N   uint32
@@ -38,4 +42,49 @@ func FractionMultiplyList(fs []Fraction) Fraction {
 		prod = FractionMultiply(prod, f)
 	}
 	return prod
+}
+
+func FractionAdd(f Fraction, s Fraction) Fraction {
+	return FractionSimplify(Fraction{N: f.N*s.D + s.N*f.D, D: f.D * s.D})
+}
+
+type Fraction64 struct {
+	N uint64
+	D uint64
+}
+
+func FractionAdd64(f Fraction64, s Fraction64) Fraction64 {
+	return FractionSimplify64(Fraction64{N: f.N*s.D + s.N*f.D, D: f.D * s.D})
+}
+
+func FractionSimplify64(f Fraction64) Fraction64 {
+	for gcd := mathutil.GCDUint64(f.N, f.D); gcd != 1; gcd = mathutil.GCDUint64(f.N, f.D) {
+		f.N = f.N / gcd
+		f.D = f.D / gcd
+	}
+	return f
+}
+
+type FractionBig struct {
+	N big.Int
+	D big.Int
+}
+
+func FractionAddBig(f FractionBig, s FractionBig) FractionBig {
+	return FractionSimplifyBig(FractionBig{
+		N: *big.NewInt(0).Add(big.NewInt(0).Mul(&f.N, &s.D), big.NewInt(0).Mul(&s.N, &f.D)),
+		D: *big.NewInt(0).Mul(&f.D, &s.D),
+	})
+}
+
+func FractionSimplifyBig(f FractionBig) FractionBig {
+	n := &f.N
+	d := &f.D
+	for gcd := big.NewInt(0).GCD(nil, nil, n, d); gcd.Cmp(big.NewInt(1)) != 0; gcd = gcd.GCD(nil, nil, n, d) {
+		n.Div(n, gcd)
+		d.Div(d, gcd)
+	}
+	f.N = *n
+	f.D = *d
+	return f
 }

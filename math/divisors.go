@@ -1,5 +1,7 @@
 package math
 
+import "math"
+
 func Divisors(num int) []int {
 	if num < 0 {
 		return make([]int, 0, 0)
@@ -44,4 +46,8 @@ func StringToSet(str string) []rune {
 		}
 	}
 	return set
+}
+
+func DigitsU64(x uint64) int {
+	return int(math.Log10(float64(x)))
 }
