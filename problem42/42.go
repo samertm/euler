@@ -21,7 +21,7 @@ func Solve() string {
 	contents := csv.Read("problem42/p042_words.txt")
 	var triangleWords int
 	for _, word := range contents {
-		if math.IsTriangleNum(wordSum(word)) {
+		if _, ok := math.IsTriangleNum(wordSum(word)); ok {
 			triangleWords++
 		}
 	}
