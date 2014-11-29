@@ -1,7 +1,6 @@
 package problem94
 
 import (
-	"log"
 	"math"
 	"math/big"
 )
@@ -46,7 +45,6 @@ func Solve() string {
 	sum := big.NewInt(0)
 	for t, valid := cycle(); valid; t, valid = cycle() {
 		if areaIsIntegral(t) {
-			log.Printf("found %10d %10d %10d", int64(t[0]), int64(t[1]), int64(t[2]))
 			sum.Add(sum, big.NewInt(int64(perimeter(t))))
 		}
 	}

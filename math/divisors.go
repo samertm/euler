@@ -1,6 +1,10 @@
 package math
 
-import "math"
+import (
+	"math"
+
+	"github.com/cznic/mathutil"
+)
 
 func Divisors(num int) []int {
 	if num < 0 {
@@ -50,4 +54,15 @@ func StringToSet(str string) []rune {
 
 func DigitsU64(x uint64) int {
 	return int(math.Log10(float64(x)))
+}
+
+func Totient(x uint64) int {
+	var count int
+	var i uint64
+	for i = 0; i < x; i++ {
+		if mathutil.GCDUint64(i, x) == 1 {
+			count++
+		}
+	}
+	return count
 }
