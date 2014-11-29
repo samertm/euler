@@ -7,7 +7,7 @@ func Divisors(num int) []int {
 	divs := make([]int, 0, 0)
 	half := num / 2
 	for i := 1; i <= half; i++ {
-		if num % i == 0 {
+		if num%i == 0 {
 			divs = append(divs, i)
 		}
 	}
@@ -26,7 +26,19 @@ func ToSet(list []int) []int {
 	hit := make(map[int]bool)
 	set := make([]int, 0, len(list))
 	for _, n := range list {
-		if hit[n] == false {
+		if !hit[n] {
+			set = append(set, n)
+			hit[n] = true
+		}
+	}
+	return set
+}
+
+func StringToSet(str string) []rune {
+	hit := make(map[rune]bool)
+	set := make([]rune, 0, len(str))
+	for _, n := range str {
+		if !hit[n] {
 			set = append(set, n)
 			hit[n] = true
 		}
