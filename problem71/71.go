@@ -2,7 +2,6 @@ package problem71
 
 import (
 	"fmt"
-	"sort"
 
 	"github.com/cznic/mathutil"
 )
@@ -13,21 +12,7 @@ type fraction struct {
 	val *float64
 }
 
-type fractions []fraction
-
-func (f fractions) Len() int {
-	return len(f)
-}
-
-func (f fractions) Less(i, j int) bool {
-	return val(f[i]) < val(f[j])
-}
-
-func (f fractions) Swap(i, j int) {
-	f[i], f[j] = f[j], f[i]
-}
-
-func val(f fraction) float64 {
+func val(f *fraction) float64 {
 	if f.val == nil {
 		v := float64(f.n) / float64(f.d)
 		f.val = &v
@@ -36,28 +21,23 @@ func val(f fraction) float64 {
 }
 
 func Solve() string {
-	fracts := make(fractions, 0, 0)
-	var mil uint32 = 100000
-	target := fraction{n: 3, d: 7}
+	upper := fraction{n: 3, d: 7}
+	lower := fraction{n: 2, d: 7}
 	var i uint32
-	for i = 1; i <= mil; i++ {
+	for i = 8; i <= 1000000; i++ {
 		var j uint32
-		for j = 1; j < i; j++ {
+		for j = lower.n; j < i; j++ {
 			if mathutil.GCDUint32(i, j) == 1 {
 				f := fraction{n: j, d: i}
-				if val(f) > val(target) {
+				if val(&f) < val(&lower) {
+					continue
+				}
+				if val(&f) >= val(&upper) {
 					break
 				}
-				fracts = append(fracts, fraction{n: j, d: i})
+				lower = f
 			}
 		}
 	}
-	sort.Sort(fracts)
-	for i, n := range fracts {
-		if n.n == 3 && n.d == 7 {
-			return fmt.Sprintf("%v", fracts[i-1])
-		}
-	}
-	panic("unreachable")
-	return "nope"
+	return fmt.Sprintf("%d", lower.n)
 }
