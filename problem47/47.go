@@ -17,7 +17,7 @@ func Solve() string {
 			times = 0
 		}
 		if times == 4 {
-			return strconv.Itoa(int(i) - 4)
+			return strconv.Itoa(int(i) - 3)
 		}
 	}
 	panic("unreachable")
