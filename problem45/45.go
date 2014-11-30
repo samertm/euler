@@ -2,7 +2,6 @@ package problem45
 
 import (
 	"fmt"
-	"log"
 
 	"github.com/samertm/euler/math"
 )
@@ -27,8 +26,6 @@ func Solve() string {
 		}
 		if tri.Val == pent.Val && tri.Val == hex.Val {
 			return fmt.Sprintf("%d", tri.Val)
-		} else {
-			log.Println(tri, pent, hex)
 		}
 		for pent.Val < tri.Val {
 			pent = <-pentagonalNumsCh
