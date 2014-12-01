@@ -53,6 +53,18 @@ type Fraction64 struct {
 	D uint64
 }
 
+func FractionToSet64(fs []Fraction64) []Fraction64 {
+	hit := make(map[Fraction64]bool)
+	set := make([]Fraction64, 0, len(fs))
+	for _, n := range fs {
+		if !hit[n] {
+			set = append(set, n)
+			hit[n] = true
+		}
+	}
+	return set
+}
+
 func FractionAdd64(f Fraction64, s Fraction64) Fraction64 {
 	return FractionSimplify64(Fraction64{N: f.N*s.D + s.N*f.D, D: f.D * s.D})
 }
