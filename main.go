@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 
-	"github.com/samertm/euler/problem36"
+	"github.com/samertm/euler/problem34"
 )
 
 func main() {
-	fmt.Println(problem36.Solve())
+	fmt.Println(problem34.Solve())
 }
