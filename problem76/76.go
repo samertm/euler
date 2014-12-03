@@ -1,6 +1,6 @@
 package problem76
 
-import "log"
+import "strconv"
 
 func cycle(x int, i int) (num int) {
 	if x == 0 {
@@ -12,6 +12,5 @@ func cycle(x int, i int) (num int) {
 }
 
 func Solve() string {
-	log.Fatal(cycle(100, 99))
-	return ""
+	return strconv.Itoa(cycle(100, 99))
 }
