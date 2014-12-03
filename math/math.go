@@ -1,5 +1,10 @@
 package math
 
+import (
+	"math"
+	"math/big"
+)
+
 func IsPermutation(x int, y int) bool {
 	xDigits := make(map[int]int)
 	for x != 0 {
@@ -64,4 +69,44 @@ func Phis(limit int) []int {
 		}
 	}
 	return phis
+}
+
+func IsPalindrome(s string) bool {
+	for len(s) > 1 {
+		if s[0] != s[len(s)-1] {
+			return false
+		}
+		s = s[1 : len(s)-1]
+	}
+	return true
+}
+
+func Reverse(x int) int {
+	var reverse int
+	p := int(math.Log10(float64(x)))
+	for ; x > 0; x /= 10 {
+		reverse += int(math.Pow10(p)) * (x % 10)
+		p--
+	}
+	return reverse
+}
+
+func ReverseUint64(x uint64) uint64 {
+	var reverse uint64
+	p := int(math.Log10(float64(x)))
+	for ; x > 0; x /= 10 {
+		reverse += uint64(math.Pow10(p)) * (x % 10)
+		p--
+	}
+	return reverse
+}
+
+func ReverseBig(x *big.Int) *big.Int {
+	reverse := big.NewInt(0)
+	p := len(x.String()) - 1
+	for ; x.Uint64() != 0; x.Div(x, big.NewInt(10)) {
+		reverse.Mul(big.NewInt(int64(math.Pow10(p))), big.NewInt(0).Mod(x, big.NewInt(10)))
+		p--
+	}
+	return reverse
 }
